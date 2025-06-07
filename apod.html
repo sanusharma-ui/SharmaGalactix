@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NASA APOD - Space Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes glow {
+      0% {
+        text-shadow: 0 0 10px #66fcf1;
+      }
+      100% {
+        text-shadow: 0 0 20px #66fcf1, 0 0 30px #66fcf1;
+      }
+    }
+
+    .animate-glow {
+      animation: glow 1.5s ease-in-out infinite alternate;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #000000, #0f0f0f, #050505);
+    }
+
+    .glass-card {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(102, 252, 241, 0.15);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .hover-glow:hover {
+      box-shadow: 0 0 15px rgba(102, 252, 241, 0.3), 0 0 30px rgba(102, 252, 241, 0.2);
+    }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen flex flex-col">
+
+  <!-- Navigation -->
+  <nav class="bg-black text-teal-300 px-6 py-4 shadow-md flex flex-wrap justify-center gap-6 text-lg border-b border-teal-500/10">
+    <a href="index.html" class="hover:underline">Home</a>
+    <a href="apod.html" class="hover:underline font-semibold">NASA APOD</a>
+    <a href="news.html" class="hover:underline">Space News</a>
+    <a href="iss.html" class="hover:underline">ISS Tracker</a>
+    <a href="starmap.html" class="hover:underline">Star Map</a>
+  </nav>
+
+  <!-- APOD Section -->
+  <main class="flex-grow px-6 py-10 max-w-4xl mx-auto">
+    <section id="apod" class="glass-card animate-fade-in">
+      <h1 class="text-3xl md:text-4xl font-bold text-teal-300 animate-glow mb-4">🌠 Astronomy Picture of the Day</h1>
+      <p class="text-gray-300 mb-6">Loading today's picture...</p>
+    </section>
+
+    <!-- Search by Date -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-semibold text-teal-200 mb-4">🔍 Search by Date</h2>
+      <div class="flex flex-col sm:flex-row gap-4 items-center">
+        <input type="date" id="apodDate" class="px-4 py-2 rounded-lg text-black w-full sm:w-auto">
+        <button onclick="searchAPOD()" class="bg-teal-500 hover:bg-teal-600 transition px-6 py-2 rounded-lg text-white font-semibold">
+          Search
+        </button>
+      </div>
+      <div id="apodResult" class="mt-8 glass-card"></div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-black text-gray-500 text-center py-4 text-sm border-t border-teal-500/10">
+    ...MAde by SharmaGalactix...
+  </footer>
+
+  <!-- Script -->
+  <script>
+    const apiKey = "hBHTCoeFTDRztLCLhr1HWSTkfQurUBZ2VC1kG9cs";
+
+    async function getAPOD() {
+      const apodDiv = document.getElementById("apod");
+      try {
+        const res = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`);
+        const data = await res.json();
+        apodDiv.innerHTML = `
+          <h1 class="text-3xl md:text-4xl font-bold text-teal-300 animate-glow mb-4">🌠 ${data.title}</h1>
+          ${data.media_type === "image" 
+            ? `<img src="${data.url}" alt="NASA APOD" class="rounded-lg shadow-lg mx-auto">`
+            : `<iframe src="${data.url}" class="w-full rounded-lg shadow-lg mt-4" height="400" frameborder="0"></iframe>`}
+          <p class="text-gray-300 mt-4">${data.explanation}</p>
+        `;
+      } catch (error) {
+        apodDiv.innerHTML = `<p class="text-red-400">Kuch galat ho gaya: ${error.message}</p>`;
+      }
+    }
+
+    async function searchAPOD() {
+      const date = document.getElementById("apodDate").value;
+      if (!date) return alert("Please select a date!");
+      const res = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=${date}`);
+      const data = await res.json();
+      document.getElementById("apodResult").innerHTML = `
+        <h2 class="text-xl font-semibold text-teal-300 mb-3">${data.title}</h2>
+        ${data.media_type === "image" 
+          ? `<img src="${data.url}" class="rounded-lg shadow-lg mx-auto">`
+          : `<iframe class="w-full rounded-lg mt-4 shadow-md" height="400" src="${data.url}" frameborder="0"></iframe>`}
+        <p class="text-gray-300 mt-4">${data.explanation}</p>
+      `;
+    }
+
+    getAPOD();
+  </script>
+
+</body>
+</html>
+

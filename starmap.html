@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌌 Star Map - Space Dashboard</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom Styling -->
+  <style>
+    body {
+      background-color: #0b0c10;
+    }
+
+    iframe {
+      border: none;
+    }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen flex flex-col">
+
+  <!-- 🌐 Navbar -->
+  <nav class="bg-gray-900 text-teal-300 px-6 py-4 shadow-md flex flex-wrap justify-center gap-6 text-lg">
+    <a href="index.html" class="hover:text-white transition">Home</a>
+    <a href="apod.html" class="hover:text-white transition">NASA APOD</a>
+    <a href="news.html" class="hover:text-white transition">Space News</a>
+    <a href="iss.html" class="hover:text-white transition">ISS Tracker</a>
+    <a href="starmap.html" class="hover:text-white transition font-semibold">Star Map</a>
+  </nav>
+
+  <!-- 🌌 Title -->
+  <main class="flex-grow w-full">
+    <h1 class="text-3xl md:text-4xl font-bold text-teal-300 text-center my-6 animate-pulse">🌌 Interactive Star Map (Powered by Stellarium)</h1>
+
+    <!-- 🌠 Stellarium Viewer -->
+    <div class="w-full h-[calc(100vh-180px)]">
+      <iframe src="https://stellarium-web.org/" class="w-full h-full rounded-none shadow-lg"></iframe>
+    </div>
+  </main>
+
+  <!-- 📜 Footer -->
+  <footer class="bg-gray-800 text-gray-400 text-center py-4 text-sm border-t border-gray-700">
+   ...MAde by SharmaGalactix...
+  </footer>
+
+</body>
+</html>
+

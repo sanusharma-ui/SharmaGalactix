@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🛰️ ISS Tracker - Space Dashboard</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+  <style>
+    body {
+      background-color: #000;
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    #map {
+      height: 500px;
+      width: 100%;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px #66fcf1;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen flex flex-col relative">
+
+  <!-- Particle Background -->
+  <div id="particles-js"></div>
+
+  <!-- Navbar -->
+  <nav class="bg-black/80 backdrop-blur px-6 py-4 shadow-md flex flex-wrap justify-center gap-6 text-base sm:text-lg border-b border-gray-700">
+    <a href="index.html" class="hover:text-teal-400 transition">Home</a>
+    <a href="apod.html" class="hover:text-teal-400 transition">NASA APOD</a>
+    <a href="news.html" class="hover:text-teal-400 transition">Space News</a>
+    <a href="iss.html" class="text-teal-300 font-bold border-b-2 border-teal-300">ISS Tracker</a>
+    <a href="starmap.html" class="hover:text-teal-400 transition">Star Map</a>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="flex-grow px-4 sm:px-6 py-10 max-w-6xl mx-auto z-10">
+    <h1 class="text-3xl sm:text-4xl font-bold text-teal-300 text-center mb-6 animate-pulse">🛰️ Live ISS Tracker</h1>
+
+    <div class="text-center text-gray-300 mb-6 text-lg">
+      🌍 Latitude: <span id="lat">--</span> | Longitude: <span id="lon">--</span>
+    </div>
+
+    <div id="map" class="mb-12"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-black/80 text-gray-400 text-center py-4 text-sm border-t border-gray-700">
+    ...MAde by SharmaGalactix...
+  </footer>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+  <!-- Particle Config -->
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.2 },
+        size: { value: 2, random: true },
+        line_linked: {
+          enable: true,
+          distance: 100,
+          color: "#66fcf1",
+          opacity: 0.3,
+          width: 1
+        },
+        move: { enable: true, speed: 0.8 }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" }
+        }
+      },
+      retina_detect: true
+    });
+  </script>
+
+  <!-- ISS Tracker Script -->
+  <script>
+    const latText = document.getElementById("lat");
+    const lonText = document.getElementById("lon");
+
+    const map = L.map("map").setView([0, 0], 2);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap contributors"
+    }).addTo(map);
+
+    const issIcon = L.icon({
+      iconUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d0/International_Space_Station.svg",
+      iconSize: [50, 32],
+      iconAnchor: [25, 16]
+    });
+
+    const marker = L.marker([0, 0], { icon: issIcon }).addTo(map);
+
+    async function updateISS() {
+      try {
+        const res = await fetch("https://api.wheretheiss.at/v1/satellites/25544");
+        const data = await res.json();
+        const { latitude, longitude } = data;
+
+        marker.setLatLng([latitude, longitude]);
+        map.panTo([latitude, longitude]);
+
+        latText.textContent = latitude.toFixed(2);
+        lonText.textContent = longitude.toFixed(2);
+      } catch (error) {
+        console.error("Failed to fetch ISS location", error);
+      }
+    }
+
+    updateISS();
+    setInterval(updateISS, 5000);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🌌 Space Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @keyframes glow {
+      0% { text-shadow: 0 0 10px #66fcf1; }
+      100% { text-shadow: 0 0 20px #66fcf1, 0 0 30px #66fcf1; }
+    }
+
+    .animate-glow {
+      animation: glow 1.5s ease-in-out infinite alternate;
+    }
+
+    body {
+      background: radial-gradient(circle at 20% 20%, #000000, #0f0f0f, #050505);
+    }
+
+    .glass-card {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(102, 252, 241, 0.2);
+    }
+
+    .hover-glow:hover {
+      box-shadow: 0 0 15px rgba(102, 252, 241, 0.3), 0 0 30px rgba(102, 252, 241, 0.2);
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex flex-col font-sans">
+
+  <!-- 🌌 Particles Background -->
+  <div id="particles-js" class="fixed top-0 left-0 w-full h-full -z-10"></div>
+
+  <!-- 💫 particles.js -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 120, "density": { "enable": true, "value_area": 900 } },
+        "color": { "value": "#ffffff" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.5 },
+        "size": { "value": 2.5, "random": true },
+        "line_linked": {
+          "enable": true,
+          "distance": 130,
+          "color": "#66fcf1",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": { "enable": true, "speed": 1.8 }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" }
+        },
+        "modes": {
+          "repulse": { "distance": 100 },
+          "push": { "particles_nb": 4 }
+        }
+      },
+      "retina_detect": true
+    });
+  </script>
+
+  <!-- 🚀 Header -->
+  <header class="bg-gradient-to-r from-black via-gray-900 to-black p-6 shadow-lg border-b border-teal-500/10">
+    <h1 class="text-4xl md:text-5xl font-bold text-teal-300 animate-glow">🚀 Space Dashboard</h1>
+    <p class="text-gray-400 mt-2 text-sm md:text-base">Explore the Universe — Real-time views, news, and star maps</p>
+  </header>
+
+  <!-- 📦 Main Content -->
+  <main class="flex-grow flex items-center justify-center p-6">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mt-10 max-w-6xl w-full">
+
+      <!-- 🔭 Cards -->
+      <a href="apod.html" class="glass-card hover:bg-opacity-60 transition duration-300 rounded-xl p-6 text-center hover:scale-105 transform shadow-lg hover-glow">
+        <div class="text-3xl mb-2">🌄</div>
+        <h2 class="text-xl font-semibold text-teal-300">NASA APOD</h2>
+        <p class="text-gray-300 mt-2 text-sm">See today's Astronomy Picture of the Day</p>
+      </a>
+
+      <a href="news.html" class="glass-card hover:bg-opacity-60 transition duration-300 rounded-xl p-6 text-center hover:scale-105 transform shadow-lg hover-glow">
+        <div class="text-3xl mb-2">📰</div>
+        <h2 class="text-xl font-semibold text-teal-300">Space News</h2>
+        <p class="text-gray-300 mt-2 text-sm">Read latest news from space missions</p>
+      </a>
+
+      <a href="iss.html" class="glass-card hover:bg-opacity-60 transition duration-300 rounded-xl p-6 text-center hover:scale-105 transform shadow-lg hover-glow">
+        <div class="text-3xl mb-2">🛰️</div>
+        <h2 class="text-xl font-semibold text-teal-300">ISS Tracker</h2>
+        <p class="text-gray-300 mt-2 text-sm">Watch International Space Station Live</p>
+      </a>
+
+      <a href="starmap.html" class="glass-card hover:bg-opacity-60 transition duration-300 rounded-xl p-6 text-center hover:scale-105 transform shadow-lg hover-glow">
+        <div class="text-3xl mb-2">🌌</div>
+        <h2 class="text-xl font-semibold text-teal-300">Star Map</h2>
+        <p class="text-gray-300 mt-2 text-sm">Explore sky like Stellarium</p>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- 🦾 Footer -->
+  <footer class="bg-black text-gray-500 py-4 text-sm text-center border-t border-teal-500/10">
+    ...MAde by SharmaGalactix...
+  </footer>
+
+</body>
+</html>
+
+
